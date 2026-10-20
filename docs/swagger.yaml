@@ -1,0 +1,952 @@
+basePath: /
+definitions:
+  internal_http_handler.HealthResponse:
+    properties:
+      status:
+        example: ok
+        type: string
+    type: object
+  task-management-service_internal_http_dto.CreateTaskCommentRequest:
+    properties:
+      content:
+        example: Looks good, ship it
+        type: string
+    required:
+    - content
+    type: object
+  task-management-service_internal_http_dto.CreateTaskRequest:
+    properties:
+      assignee_id:
+        example: 2
+        type: integer
+      description:
+        example: Reduce burst window for auth endpoints
+        type: string
+      team_id:
+        example: 1
+        type: integer
+      title:
+        example: Fix login rate limit
+        type: string
+    required:
+    - team_id
+    - title
+    type: object
+  task-management-service_internal_http_dto.CreateTeamRequest:
+    properties:
+      name:
+        example: Platform
+        type: string
+    required:
+    - name
+    type: object
+  task-management-service_internal_http_dto.InviteMemberRequest:
+    properties:
+      role:
+        enum:
+        - admin
+        - member
+        example: member
+        type: string
+      user_id:
+        example: 2
+        type: integer
+    required:
+    - role
+    - user_id
+    type: object
+  task-management-service_internal_http_dto.ListTaskCommentsResponse:
+    properties:
+      comments:
+        items:
+          $ref: '#/definitions/task-management-service_internal_http_dto.TaskCommentResponse'
+        type: array
+    type: object
+  task-management-service_internal_http_dto.ListTaskHistoryResponse:
+    properties:
+      history:
+        items:
+          $ref: '#/definitions/task-management-service_internal_http_dto.TaskHistoryResponse'
+        type: array
+    type: object
+  task-management-service_internal_http_dto.ListTasksResponse:
+    properties:
+      tasks:
+        items:
+          $ref: '#/definitions/task-management-service_internal_http_dto.TaskResponse'
+        type: array
+    type: object
+  task-management-service_internal_http_dto.ListTeamsResponse:
+    properties:
+      teams:
+        items:
+          $ref: '#/definitions/task-management-service_internal_http_dto.TeamResponse'
+        type: array
+    type: object
+  task-management-service_internal_http_dto.LoginRequest:
+    properties:
+      email:
+        example: alex@mail.test
+        type: string
+      password:
+        example: qwerty123
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  task-management-service_internal_http_dto.LoginResponse:
+    properties:
+      access_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+    type: object
+  task-management-service_internal_http_dto.RegisterRequest:
+    properties:
+      email:
+        example: alex@mail.test
+        type: string
+      name:
+        example: Alex Petrov
+        type: string
+      password:
+        example: qwerty123
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  task-management-service_internal_http_dto.RegisterResponse:
+    properties:
+      email:
+        example: alex@mail.test
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Alex Petrov
+        type: string
+    type: object
+  task-management-service_internal_http_dto.TaskCommentResponse:
+    properties:
+      content:
+        example: Looks good, ship it
+        type: string
+      created_at:
+        example: "2026-09-12T11:00:00Z"
+        type: string
+      id:
+        example: 1
+        type: integer
+      task_id:
+        example: 1
+        type: integer
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  task-management-service_internal_http_dto.TaskHistoryResponse:
+    properties:
+      changed_by:
+        example: 1
+        type: integer
+      changes:
+        type: object
+      created_at:
+        example: "2026-08-25T12:00:00Z"
+        type: string
+      id:
+        example: 1
+        type: integer
+      task_id:
+        example: 1
+        type: integer
+    type: object
+  task-management-service_internal_http_dto.TaskResponse:
+    properties:
+      assignee_id:
+        example: 2
+        type: integer
+      closed_at:
+        example: "2026-09-12T18:40:00Z"
+        type: string
+      created_at:
+        example: "2026-09-12T10:15:00Z"
+        type: string
+      created_by:
+        example: 1
+        type: integer
+      description:
+        example: Reduce burst window for auth endpoints
+        type: string
+      id:
+        example: 1
+        type: integer
+      status:
+        enum:
+        - todo
+        - in_progress
+        - done
+        - cancelled
+        example: todo
+        type: string
+      team_id:
+        example: 1
+        type: integer
+      title:
+        example: Fix login rate limit
+        type: string
+      updated_at:
+        example: "2026-09-12T10:15:00Z"
+        type: string
+      version:
+        example: 1
+        type: integer
+    type: object
+  task-management-service_internal_http_dto.TaskStatusCountResponse:
+    properties:
+      count:
+        example: 5
+        type: integer
+      status:
+        enum:
+        - todo
+        - in_progress
+        - done
+        - cancelled
+        example: done
+        type: string
+    type: object
+  task-management-service_internal_http_dto.TeamResponse:
+    properties:
+      created_by:
+        example: 1
+        type: integer
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Platform
+        type: string
+    type: object
+  task-management-service_internal_http_dto.TeamStatsResponse:
+    properties:
+      avg_close_time_seconds:
+        example: 3600
+        type: number
+      by_status:
+        items:
+          $ref: '#/definitions/task-management-service_internal_http_dto.TaskStatusCountResponse'
+        type: array
+      top_assignees:
+        items:
+          $ref: '#/definitions/task-management-service_internal_http_dto.TopAssigneeResponse'
+        type: array
+      total_comments:
+        example: 12
+        type: integer
+    type: object
+  task-management-service_internal_http_dto.TopAssigneeResponse:
+    properties:
+      assignee_id:
+        example: 2
+        type: integer
+      closed_count:
+        example: 3
+        type: integer
+    type: object
+  task-management-service_internal_http_dto.UpdateTaskDocRequest:
+    properties:
+      assignee_id:
+        example: 2
+        type: integer
+      description:
+        example: Invalidate redis keys after task updates
+        type: string
+      status:
+        enum:
+        - todo
+        - in_progress
+        - done
+        - cancelled
+        example: in_progress
+        type: string
+      title:
+        example: Ship caching for task list
+        type: string
+      version:
+        example: 1
+        type: integer
+    required:
+    - version
+    type: object
+  task-management-service_internal_http_dto.UpdateTeamMemberRoleRequest:
+    properties:
+      role:
+        enum:
+        - admin
+        - member
+        example: admin
+        type: string
+    required:
+    - role
+    type: object
+info:
+  contact: {}
+  description: 'HTTP API сервиса задач внутри команд: пользователи, роли, задачи,
+    комментарии, история и аналитика.'
+  title: Task Management Service API
+  version: "1.0"
+paths:
+  /api/v1/login:
+    post:
+      consumes:
+      - application/json
+      description: Логин, в ответе JWT для последующих запросов.
+      parameters:
+      - description: Login request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/task-management-service_internal_http_dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.LoginResponse'
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "401":
+          description: invalid credentials
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - auth
+  /api/v1/register:
+    post:
+      consumes:
+      - application/json
+      description: Регистрация пользователя.
+      parameters:
+      - description: Register request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/task-management-service_internal_http_dto.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.RegisterResponse'
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "409":
+          description: email already taken
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Register
+      tags:
+      - auth
+  /api/v1/tasks:
+    get:
+      description: 'Список задач команды: фильтры status/assignee_id, пагинация limit/offset.
+        Ответ кешируется.'
+      parameters:
+      - description: Team ID
+        in: query
+        name: team_id
+        required: true
+        type: integer
+      - description: Task status
+        enum:
+        - todo
+        - in_progress
+        - done
+        - cancelled
+        in: query
+        name: status
+        type: string
+      - description: Assignee user ID
+        in: query
+        name: assignee_id
+        type: integer
+      - description: Page size
+        in: query
+        name: limit
+        type: integer
+      - description: Page offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.ListTasksResponse'
+        "400":
+          description: invalid query parameter
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "403":
+          description: insufficient permissions
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: List tasks
+      tags:
+      - tasks
+    post:
+      consumes:
+      - application/json
+      description: Создать задачу в команде. Исполнитель — только участник этой же
+        команды.
+      parameters:
+      - description: Create task request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/task-management-service_internal_http_dto.CreateTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.TaskResponse'
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "403":
+          description: insufficient permissions
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create task
+      tags:
+      - tasks
+  /api/v1/tasks/{id}:
+    get:
+      description: Получить задачу по id (только участники её команды).
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.TaskResponse'
+        "400":
+          description: invalid task id
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "404":
+          description: task not found
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get task
+      tags:
+      - tasks
+    put:
+      consumes:
+      - application/json
+      description: Обновление задачи с version (optimistic lock) и записью в историю.
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update task request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/task-management-service_internal_http_dto.UpdateTaskDocRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.TaskResponse'
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "403":
+          description: insufficient permissions
+          schema:
+            type: string
+        "404":
+          description: task not found
+          schema:
+            type: string
+        "409":
+          description: task version conflict
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update task
+      tags:
+      - tasks
+  /api/v1/tasks/{id}/comments:
+    get:
+      description: Комментарии по задаче.
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.ListTaskCommentsResponse'
+        "400":
+          description: invalid task id
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "404":
+          description: task not found
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: List task comments
+      tags:
+      - comments
+    post:
+      consumes:
+      - application/json
+      description: Добавить комментарий к задаче.
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Create comment request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/task-management-service_internal_http_dto.CreateTaskCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.TaskCommentResponse'
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "404":
+          description: task not found
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create task comment
+      tags:
+      - comments
+  /api/v1/tasks/{id}/history:
+    get:
+      description: История изменений задачи.
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.ListTaskHistoryResponse'
+        "400":
+          description: invalid task id
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "404":
+          description: task not found
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: List task history
+      tags:
+      - history
+  /api/v1/teams:
+    get:
+      description: Команды, в которых состоит текущий пользователь.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.ListTeamsResponse'
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: List teams
+      tags:
+      - teams
+    post:
+      consumes:
+      - application/json
+      description: Создать команду — текущий пользователь становится owner.
+      parameters:
+      - description: Create team request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/task-management-service_internal_http_dto.CreateTeamRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.TeamResponse'
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create team
+      tags:
+      - teams
+  /api/v1/teams/{id}/invite:
+    post:
+      consumes:
+      - application/json
+      description: Пригласить в команду (роль admin/member). Доступно owner и admin.
+      parameters:
+      - description: Team ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Invite member request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/task-management-service_internal_http_dto.InviteMemberRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "403":
+          description: insufficient permissions
+          schema:
+            type: string
+        "404":
+          description: user not found
+          schema:
+            type: string
+        "409":
+          description: team member already exists
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Invite team member
+      tags:
+      - teams
+  /api/v1/teams/{team_id}/members/{user_id}:
+    patch:
+      consumes:
+      - application/json
+      description: Сменить роль участника (admin/member). Owner через этот метод не
+        назначается.
+      parameters:
+      - description: Team ID
+        in: path
+        name: team_id
+        required: true
+        type: integer
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      - description: Update team member role request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/task-management-service_internal_http_dto.UpdateTeamMemberRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: invalid request or role
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "403":
+          description: insufficient permissions
+          schema:
+            type: string
+        "404":
+          description: team member not found
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update team member role
+      tags:
+      - teams
+  /api/v1/teams/{team_id}/stats:
+    get:
+      description: 'Статистика по команде: статусы, топ исполнителей, среднее время
+        закрытия, комментарии. Только owner/admin.'
+      parameters:
+      - description: Team ID
+        in: path
+        name: team_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task-management-service_internal_http_dto.TeamStatsResponse'
+        "400":
+          description: invalid team id
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+        "403":
+          description: insufficient permissions
+          schema:
+            type: string
+        "429":
+          description: rate limit exceeded
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get team statistics
+      tags:
+      - stats
+  /health:
+    get:
+      description: Проверка, что сервис жив.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handler.HealthResponse'
+      summary: Health check
+      tags:
+      - health
+securityDefinitions:
+  BearerAuth:
+    description: 'Заголовок Authorization: Bearer <JWT>'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
